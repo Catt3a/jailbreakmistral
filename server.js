@@ -197,7 +197,7 @@ app.post('/v1/requestOnce', async (req,res,next) => {
           res.status(200).json({success: false, message: data.toString()})
         }
       } catch(error) {
-        res.status(200).json({success: false, message: error})
+        res.status(200).json({success: false, message: 'a'})
       }
     } else {
       res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})
