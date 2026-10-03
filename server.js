@@ -1,7 +1,20 @@
 const express = require('express')
 const app = express()
 const PORT = process.env.PORT || 3000
+const fs = require('fs')
 const apiKey = process.env.API_KEY || '67'
+
+//страницы
+const mainPage = fs.read('./main.html')
+
+//отправка страниц
+app.get('/', async, (req,res,next) => {
+  try {
+    res.send(mainPage)
+  } catch(error) {
+    next(error)
+  }
+})
 
 app.post('/v1/requestOnce', async (req,res,next) => {
   try {
