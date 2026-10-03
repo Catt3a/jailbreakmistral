@@ -40,6 +40,7 @@ const mainPage = fs.readFileSync('./main.html','utf8')
 //отправка страниц
 app.get('/', async (req,res,next) => {
   try {
+    console.warn(req.ip)
     res.send(mainPage)
   } catch(error) {
     next(error)
