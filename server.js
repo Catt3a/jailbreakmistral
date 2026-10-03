@@ -52,6 +52,7 @@ app.post('/v1/getSession', async (req,res,next) => {
     for (const for_session of sessions) {
       if (for_session[3] === req.ip) {
         sessionExists = true
+        break
       }
     }
     if (sessionExists === false) {
@@ -75,6 +76,23 @@ app.post('/v1/getChat', async (req,res,next) => {
         res.status(200).json({success: true, message: 'ok', chatHistory: for_chat[3]})
       }
     }
+  } catch(error) {
+    next(error)
+  }
+})
+
+app.post('/v1/resetChat', async (req,res,next) => {
+  try {
+    let session = ''
+    if (req && req.body && req.body.session && typeof(req.body.session) == 'string' && req.body.session.length > 0) {session = req.body.session} else {res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})}
+    for (const for_chat of chats) {
+      if (for_chat[1] === session) {
+        const chatIndex = sessions.indexOf(for_chat)
+        chats[3] = []
+        break
+      }
+    }
+    res.status(200).json({success: true, message: 'ok', chatHistory: []})
   } catch(error) {
     next(error)
   }
