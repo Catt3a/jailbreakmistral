@@ -83,7 +83,6 @@ app.post('/v1/getChat', async (req,res,next) => {
       tokenChat = crypto.randomUUID()
       chats.push([tokenChat, session, Date.now() + (2 * 24 * 60 * 60 * 1000), [], req.ip])
       res.status(200).json({success: true, message: 'ok', chatHistory: [], chatToken: tokenChat})
-      break
     }
   } catch(error) {
     next(error)
