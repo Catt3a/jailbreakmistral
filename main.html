@@ -1,50 +1,27 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>eval</title>
+  <title>Eval</title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://raw.githubusercontent.com/Catt3a/jailbreakmistral/refs/heads/main/icon.png"
+  />
 
   <style>
     * {
       box-sizing: border-box;
     }
 
-    :root {
-      --bg: #ffffff;
-      --text: #171717;
-      --muted: #8a8a8a;
-      --border: #e5e5e5;
-      --input: #f7f7f7;
-      --code-bg: #f4f4f4;
-      --button: #171717;
-      --button-text: #ffffff;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #181818;
-        --text: #f5f5f5;
-        --muted: #929292;
-        --border: #303030;
-        --input: #222222;
-        --code-bg: #111111;
-        --button: #f5f5f5;
-        --button-text: #171717;
-      }
-    }
-
     html,
     body {
       margin: 0;
+      padding: 0;
       min-height: 100%;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    body {
-      min-height: 100vh;
       font-family:
         Inter,
         -apple-system,
@@ -53,6 +30,17 @@
         Roboto,
         Arial,
         sans-serif;
+      background: #ffffff;
+      color: #171717;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    button,
+    textarea {
+      font: inherit;
     }
 
     .app {
@@ -61,1559 +49,1413 @@
       flex-direction: column;
     }
 
-    /* -------------------------
-       Header
-    ------------------------- */
+    /* Header */
 
-    header {
+    .header {
       height: 64px;
       display: flex;
       align-items: center;
-      padding: 0 24px;
+      padding: 0 28px;
+      border-bottom: 1px solid #f0f0f0;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 10px;
-
-      font-size: 19px;
+      font-size: 17px;
       font-weight: 600;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.02em;
     }
 
-    .brand img {
-      width: 30px;
-      height: 30px;
-      border-radius: 9px;
-      object-fit: cover;
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      border-radius: 7px;
     }
 
-    /* -------------------------
-       Main
-    ------------------------- */
+    /* Main */
 
-    main {
-      flex: 1;
-
+    .main {
       width: 100%;
-      max-width: 820px;
-
+      max-width: 960px;
       margin: 0 auto;
-
-      padding: 20px;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      padding: 48px 20px 150px;
+      flex: 1;
     }
 
-    /* -------------------------
-       Welcome
-    ------------------------- */
+    /* Welcome */
 
     .welcome {
       display: flex;
       flex-direction: column;
       align-items: center;
-
+      justify-content: center;
+      min-height: 260px;
       text-align: center;
+      transition: 0.2s ease;
+    }
 
-      margin-bottom: 28px;
+    .welcome.hidden {
+      display: none;
+    }
+
+    .welcome-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 10px;
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.04em;
     }
 
     .welcome-icon {
-      width: 52px;
-      height: 52px;
-
-      margin-bottom: 14px;
-
-      border-radius: 15px;
-
-      object-fit: cover;
-
-      box-shadow:
-        0 2px 12px rgba(0, 0, 0, .06);
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      border-radius: 9px;
     }
 
-    .welcome h1 {
-      margin: 0 0 8px;
-
-      font-size: clamp(28px, 5vw, 38px);
-      line-height: 1.2;
-
-      font-weight: 600;
-      letter-spacing: -1.2px;
-    }
-
-    .welcome p {
+    .welcome-subtitle {
       margin: 0;
-
-      color: var(--muted);
+      color: #8a8a8a;
       font-size: 15px;
     }
 
-    /* -------------------------
-       Answer
-    ------------------------- */
+    /* Chat history */
 
-    .answer {
-      display: none;
+    .chat-history {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
 
-      margin-bottom: 24px;
-      padding: 0 8px;
+    .chat-message {
+      display: flex;
+      width: 100%;
+    }
 
-      font-size: 16px;
+    .chat-message.user {
+      justify-content: flex-end;
+    }
+
+    .chat-message.assistant {
+      justify-content: flex-start;
+    }
+
+    .chat-bubble {
+      max-width: 82%;
+      font-size: 15px;
       line-height: 1.65;
-
       overflow-wrap: anywhere;
-
-      animation: fadeIn .25s ease;
     }
 
-    .answer.visible {
-      display: block;
+    .chat-message.user .chat-bubble {
+      padding: 12px 16px;
+      background: #f1f1f1;
+      border-radius: 18px;
+      color: #171717;
     }
 
-    .answer.error {
-      color: #d44;
+    .chat-message.assistant .chat-bubble {
+      padding: 2px 0;
+      color: #171717;
     }
 
-    .answer p {
-      margin: 0 0 14px;
+    /* Markdown */
+
+    .markdown p {
+      margin: 0 0 12px;
     }
 
-    .answer p:last-child {
+    .markdown p:last-child {
       margin-bottom: 0;
     }
 
-    .answer strong {
-      font-weight: 700;
-    }
-
-    .answer em {
-      font-style: italic;
-    }
-
-    .answer h1,
-    .answer h2,
-    .answer h3 {
+    .markdown h1,
+    .markdown h2,
+    .markdown h3 {
+      margin: 20px 0 10px;
       line-height: 1.3;
-      margin: 22px 0 10px;
+      letter-spacing: -0.02em;
     }
 
-    .answer h1 {
+    .markdown h1 {
       font-size: 25px;
     }
 
-    .answer h2 {
+    .markdown h2 {
       font-size: 21px;
     }
 
-    .answer h3 {
+    .markdown h3 {
       font-size: 18px;
     }
 
-    .answer ul,
-    .answer ol {
+    .markdown ul,
+    .markdown ol {
+      margin: 8px 0 14px;
       padding-left: 24px;
-      margin: 8px 0 16px;
     }
 
-    .answer li {
-      margin: 4px 0;
+    .markdown li {
+      margin: 5px 0;
     }
 
-    .answer a {
-      color: inherit;
-    }
-
-    .answer code:not(.code-content) {
+    .markdown code.inline-code {
       padding: 2px 6px;
-
       border-radius: 5px;
-
-      background: var(--code-bg);
-
+      background: #f1f1f1;
       font-family:
         "SFMono-Regular",
         Consolas,
         "Liberation Mono",
         monospace;
-
-      font-size: .9em;
+      font-size: 0.9em;
     }
-
-    /* -------------------------
-       Code
-    ------------------------- */
 
     .code-block {
       position: relative;
-
-      margin: 16px 0;
-
-      border: 1px solid var(--border);
-      border-radius: 12px;
-
+      margin: 14px 0;
+      border-radius: 10px;
       overflow: hidden;
-
-      background: var(--code-bg);
+      background: #181818;
+      color: #f4f4f4;
     }
 
     .code-header {
-      height: 38px;
-
-      padding: 0 10px 0 14px;
-
+      height: 34px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-
-      border-bottom: 1px solid var(--border);
-
-      color: var(--muted);
-      font-size: 12px;
+      justify-content: flex-end;
+      padding: 0 8px;
+      border-bottom: 1px solid #303030;
     }
 
-    .copy-button {
+    .copy-code {
       border: 0;
-      background: transparent;
-
-      color: var(--muted);
-
-      cursor: pointer;
-
-      padding: 5px 8px;
-
+      padding: 5px 9px;
       border-radius: 6px;
-
+      background: transparent;
+      color: #aaa;
       font-size: 12px;
+      cursor: pointer;
     }
 
-    .copy-button:hover {
-      background: rgba(128, 128, 128, .12);
-      color: var(--text);
+    .copy-code:hover {
+      background: #2a2a2a;
+      color: #fff;
     }
 
     .code-content {
-      display: block;
-
-      padding: 14px;
-
+      margin: 0;
+      padding: 14px 16px;
       overflow-x: auto;
-
       font-family:
         "SFMono-Regular",
         Consolas,
         "Liberation Mono",
         monospace;
-
       font-size: 13px;
-      line-height: 1.6;
-
+      line-height: 1.55;
       white-space: pre;
     }
 
-    /* -------------------------
-       Composer
-    ------------------------- */
-
-    .composer {
-      width: 100%;
-
-      background: var(--input);
-
-      border: 1px solid var(--border);
-      border-radius: 18px;
-
-      padding: 12px;
-
-      transition:
-        border-color .2s,
-        box-shadow .2s;
-    }
-
-    .composer:focus-within {
-      border-color: #c8c8c8;
-
-      box-shadow:
-        0 2px 15px rgba(0, 0, 0, .04);
-    }
-
-    textarea {
-      display: block;
-
-      width: 100%;
-
-      min-height: 58px;
-      max-height: 200px;
-
-      resize: none;
-
-      border: 0;
-      outline: 0;
-
-      background: transparent;
-
-      color: var(--text);
-
-      font: inherit;
-      font-size: 15px;
-      line-height: 1.5;
-    }
-
-    textarea::placeholder {
-      color: var(--muted);
-    }
-
-    .composer-bottom {
-      display: flex;
-      justify-content: flex-end;
-
-      margin-top: 6px;
-    }
-
-    #send {
-      width: 36px;
-      height: 36px;
-
-      border: 0;
-      border-radius: 50%;
-
-      background: var(--button);
-      color: var(--button-text);
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      cursor: pointer;
-
-      transition:
-        transform .15s,
-        opacity .15s;
-    }
-
-    #send:hover:not(:disabled) {
-      transform: scale(1.04);
-    }
-
-    #send:active:not(:disabled) {
-      transform: scale(.95);
-    }
-
-    #send:disabled {
-      opacity: .35;
-      cursor: default;
-    }
-
-    #send svg {
-      width: 18px;
-      height: 18px;
-
-      stroke: currentColor;
-      stroke-width: 2;
-
-      fill: none;
-    }
-
-    /* -------------------------
-       Loading
-    ------------------------- */
+    /* Loading */
 
     .loading {
       display: none;
-
-      justify-content: center;
-
-      margin-top: 18px;
+      align-items: center;
+      gap: 5px;
+      margin: 8px 0 20px;
+      height: 20px;
     }
 
     .loading.visible {
       display: flex;
     }
 
-    .dots {
-      display: flex;
-      gap: 5px;
-    }
-
-    .dots span {
+    .loading-dot {
       width: 6px;
       height: 6px;
-
       border-radius: 50%;
-
-      background: var(--muted);
-
-      animation:
-        bounce 1.2s infinite ease-in-out;
+      background: #888;
+      animation: loading 1.2s infinite ease-in-out;
     }
 
-    .dots span:nth-child(2) {
-      animation-delay: .15s;
+    .loading-dot:nth-child(2) {
+      animation-delay: 0.15s;
     }
 
-    .dots span:nth-child(3) {
-      animation-delay: .3s;
+    .loading-dot:nth-child(3) {
+      animation-delay: 0.3s;
     }
 
-    /* -------------------------
-       Footer
-    ------------------------- */
-
-    footer {
-      text-align: center;
-
-      color: var(--muted);
-
-      font-size: 11px;
-
-      padding: 0 20px 18px;
-    }
-
-    /* -------------------------
-       Animations
-    ------------------------- */
-
-    @keyframes bounce {
-      0%, 60%, 100% {
+    @keyframes loading {
+      0%,
+      60%,
+      100% {
+        opacity: 0.25;
         transform: translateY(0);
       }
 
       30% {
-        transform: translateY(-4px);
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(4px);
-      }
-
-      to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(-3px);
       }
     }
 
-    @media (max-width: 600px) {
-      header {
-        height: 56px;
-        padding: 0 16px;
+    /* Composer */
+
+    .composer-wrapper {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 14px 20px 20px;
+      background: linear-gradient(
+        to top,
+        #ffffff 65%,
+        rgba(255, 255, 255, 0)
+      );
+    }
+
+    .composer-area {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .composer {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      min-height: 58px;
+      padding: 9px 10px 9px 16px;
+      border: 1px solid #dedede;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow:
+        0 3px 14px rgba(0, 0, 0, 0.04);
+      transition: border-color 0.15s ease;
+    }
+
+    .composer:focus-within {
+      border-color: #bdbdbd;
+    }
+
+    #prompt {
+      flex: 1;
+      min-width: 0;
+      max-height: 180px;
+      min-height: 38px;
+      padding: 9px 0;
+      border: 0;
+      outline: 0;
+      resize: none;
+      background: transparent;
+      color: #171717;
+      line-height: 1.45;
+      font-size: 15px;
+    }
+
+    #prompt::placeholder {
+      color: #a0a0a0;
+    }
+
+    .send-button {
+      width: 40px;
+      height: 40px;
+      flex: 0 0 40px;
+      border: 0;
+      border-radius: 12px;
+      background: #171717;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition:
+        opacity 0.15s ease,
+        transform 0.1s ease;
+    }
+
+    .send-button:hover {
+      opacity: 0.86;
+    }
+
+    .send-button:active {
+      transform: scale(0.96);
+    }
+
+    .send-button:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    .send-icon {
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .reset-chat-btn {
+      display: block;
+      margin: 9px auto 0;
+      border: 0;
+      background: transparent;
+      color: #999;
+      cursor: pointer;
+      font-size: 12px;
+      padding: 4px 8px;
+    }
+
+    .reset-chat-btn:hover {
+      color: #555;
+    }
+
+    .reset-chat-btn:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .composer-hint {
+      margin-top: 8px;
+      text-align: center;
+      color: #aaa;
+      font-size: 11px;
+    }
+
+    /* Error */
+
+    .error-message {
+      display: none;
+      max-width: 900px;
+      margin: 0 auto 20px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #fff1f1;
+      color: #b42318;
+      font-size: 13px;
+    }
+
+    .error-message.visible {
+      display: block;
+    }
+
+    /* Mobile */
+
+    @media (max-width: 700px) {
+      .header {
+        padding: 0 18px;
       }
 
-      main {
-        padding: 14px;
+      .main {
+        padding: 30px 15px 140px;
       }
 
-      .composer {
-        border-radius: 16px;
+      .welcome {
+        min-height: 220px;
+      }
+
+      .welcome-title {
+        font-size: 27px;
+      }
+
+      .welcome-icon {
+        width: 30px;
+        height: 30px;
+      }
+
+      .chat-bubble {
+        max-width: 90%;
+      }
+
+      .composer-wrapper {
+        padding: 10px 12px 14px;
+      }
+
+      .composer-hint {
+        display: none;
       }
     }
   </style>
 </head>
 
 <body>
+  <div class="app">
 
-<div class="app">
+    <header class="header">
+      <div class="brand">
+        <img
+          class="brand-icon"
+          src="https://raw.githubusercontent.com/Catt3a/jailbreakmistral/refs/heads/main/icon.png"
+          alt="Eval"
+        />
+        <span>Eval</span>
+      </div>
+    </header>
 
-  <header>
-    <div class="brand">
+    <main class="main">
 
-      <img
-        src="https://raw.githubusercontent.com/Catt3a/jailbreakmistral/refs/heads/main/icon.png"
-        alt="eval"
-      >
+      <section class="welcome" id="welcome">
+        <h1 class="welcome-title">
+          <img
+            class="welcome-icon"
+            src="https://raw.githubusercontent.com/Catt3a/jailbreakmistral/refs/heads/main/icon.png"
+            alt=""
+          />
+          <span>Чем могу помочь?</span>
+        </h1>
 
-      <span>eval</span>
+        <p class="welcome-subtitle">
+          Задайте любой вопрос
+        </p>
+      </section>
 
-    </div>
-  </header>
+      <div class="chat-history" id="chatHistory"></div>
 
+      <div class="error-message" id="errorMessage"></div>
 
-  <main>
+      <div class="loading" id="loading">
+        <span class="loading-dot"></span>
+        <span class="loading-dot"></span>
+        <span class="loading-dot"></span>
+      </div>
 
-    <!-- Начальный экран -->
+    </main>
 
-    <div class="welcome" id="welcome">
+    <div class="composer-wrapper">
+      <div class="composer-area">
 
-      <img
-        class="welcome-icon"
-        src="https://raw.githubusercontent.com/Catt3a/jailbreakmistral/refs/heads/main/icon.png"
-        alt="eval"
-      >
+        <form class="composer" id="composer">
 
-      <h1>Чем могу помочь?</h1>
+          <textarea
+            id="prompt"
+            rows="1"
+            placeholder="Напишите сообщение..."
+            autocomplete="off"
+          ></textarea>
 
-      <p>Задайте любой вопрос</p>
+          <button
+            class="send-button"
+            id="sendButton"
+            type="submit"
+            aria-label="Отправить"
+          >
+            <svg
+              class="send-icon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M5 12h13"></path>
+              <path d="m13 6 6 6-6 6"></path>
+            </svg>
+          </button>
 
-    </div>
-
-
-    <!-- Текущий ответ -->
-
-    <div
-      id="answer"
-      class="answer"
-    ></div>
-
-
-    <!-- Поле ввода -->
-
-    <form
-      id="form"
-      class="composer"
-    >
-
-      <textarea
-        id="input"
-        placeholder="Сообщение для eval..."
-        autocomplete="off"
-        rows="1"
-      ></textarea>
-
-
-      <div class="composer-bottom">
+        </form>
 
         <button
-          id="send"
-          type="submit"
-          disabled
-          aria-label="Отправить"
+          class="reset-chat-btn"
+          id="resetChatBtn"
+          type="button"
         >
-
-          <svg viewBox="0 0 24 24">
-            <path d="M12 19V5"></path>
-            <path d="M6 11l6-6 6 6"></path>
-          </svg>
-
+          Сбросить чат
         </button>
 
+        <div class="composer-hint">
+          Eval может допускать ошибки. Проверяйте важную информацию.
+        </div>
+
       </div>
-
-    </form>
-
-
-    <!-- Индикатор загрузки -->
-
-    <div
-      id="loading"
-      class="loading"
-    >
-
-      <div class="dots">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
     </div>
 
-  </main>
-
-
-  <footer>
-    eval может допускать ошибки. Проверяйте важную информацию.
-  </footer>
-
-</div>
-
-
-<script>
-
-/* =========================================================
-   API
-========================================================= */
-
-const API_BASE =
-  "https://evalai-k8a4.onrender.com";
-
-const API = {
-  getSession:
-    `${API_BASE}/v1/getSession`,
-
-  getChat:
-    `${API_BASE}/v1/getChat`,
-
-  requestOnce:
-    `${API_BASE}/v1/requestOnce`,
-
-  resetChat:
-    `${API_BASE}/v1/resetChat`
-};
-
-
-/* =========================================================
-   Local storage
-========================================================= */
-
-const STORAGE_KEYS = {
-  session: "eval_session",
-  sessionExpires: "eval_session_expires",
-  chatToken: "eval_chat_token"
-};
-
-
-/*
- * Сессия живёт ровно 2 дня.
- */
-
-const SESSION_LIFETIME =
-  2 * 24 * 60 * 60 * 1000;
-
-
-/* =========================================================
-   DOM
-========================================================= */
-
-const form =
-  document.getElementById("form");
-
-const input =
-  document.getElementById("input");
-
-const send =
-  document.getElementById("send");
-
-const answer =
-  document.getElementById("answer");
-
-const loading =
-  document.getElementById("loading");
-
-const welcome =
-  document.getElementById("welcome");
-
-
-/* =========================================================
-   Storage helpers
-========================================================= */
-
-function getStoredSession() {
-
-  const session =
-    localStorage.getItem(
-      STORAGE_KEYS.session
-    );
-
-  const expires =
-    Number(
-      localStorage.getItem(
-        STORAGE_KEYS.sessionExpires
-      )
-    );
-
-  if (
-    !session ||
-    !expires ||
-    Date.now() >= expires
-  ) {
-
-    localStorage.removeItem(
-      STORAGE_KEYS.session
-    );
-
-    localStorage.removeItem(
-      STORAGE_KEYS.sessionExpires
-    );
-
-    return null;
-  }
-
-  return session;
-}
-
-
-function saveSession(session) {
-
-  localStorage.setItem(
-    STORAGE_KEYS.session,
-    session
-  );
-
-  localStorage.setItem(
-    STORAGE_KEYS.sessionExpires,
-    String(
-      Date.now() + SESSION_LIFETIME
-    )
-  );
-}
-
-
-function getChatToken() {
-
-  return localStorage.getItem(
-    STORAGE_KEYS.chatToken
-  );
-}
-
-
-function saveChatToken(chatToken) {
-
-  if (!chatToken) return;
-
-  localStorage.setItem(
-    STORAGE_KEYS.chatToken,
-    chatToken
-  );
-}
-
-
-/* =========================================================
-   Session
-========================================================= */
-
-async function getSession() {
-
-  const existingSession =
-    getStoredSession();
-
-  if (existingSession) {
-    return existingSession;
-  }
-
-  /*
-   * getSession — POST запрос.
-   * Session сюда не передаём,
-   * поскольку именно этот endpoint её выдаёт.
-   */
-
-  const response =
-    await fetch(API.getSession, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-
-  if (!response.ok) {
-    throw new Error(
-      `Не удалось получить сессию: HTTP ${response.status}`
-    );
-  }
-
-  const data =
-    await response.json();
-
-  if (!data.session) {
-    throw new Error(
-      "Сервер не вернул session"
-    );
-  }
-
-  saveSession(data.session);
-
-  return data.session;
-}
-
-
-/* =========================================================
-   Get chat
-========================================================= */
-
-async function getChat(session) {
-
-  /*
-   * getChat получает session.
-   *
-   * Если чата нет — сервер сам его создаёт.
-   */
-
-  const response =
-    await fetch(API.getChat, {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({
-        session: session
-      })
-    });
-
-
-  if (!response.ok) {
-
-    throw new Error(
-      `Не удалось получить чат: HTTP ${response.status}`
-    );
-  }
-
-
-  const data =
-    await response.json();
-
-
-  /*
-   * Сервер возвращает:
-   *
-   * {
-   *   chatHistory: [...],
-   *   chatToken: "..."
-   * }
-   */
-
-
-  if (data.chatToken) {
-
-    saveChatToken(
-      data.chatToken
-    );
-  }
-
-
-  return data;
-}
-
-
-/* =========================================================
-   Initialize
-========================================================= */
-
-let currentSession = null;
-let currentChatToken = null;
-
-
-/*
- * При открытии сайта:
- *
- * 1. Получаем session.
- * 2. Получаем/создаём chat.
- * 3. Сохраняем chatToken.
- *
- * chatHistory намеренно НЕ отображается.
- */
-
-async function initialize() {
-
-  try {
-
-    currentSession =
-      await getSession();
-
-
-    currentChatToken =
-      getChatToken();
-
+  </div>
+
+  <script>
+    const API_BASE = "https://evalai-k8a4.onrender.com";
+
+    const API = {
+      getSession: `${API_BASE}/v1/getSession`,
+      getChat: `${API_BASE}/v1/getChat`,
+      requestOnce: `${API_BASE}/v1/requestOnce`,
+      resetChat: `${API_BASE}/v1/resetChat`
+    };
+
+    const STORAGE_KEYS = {
+      session: "eval_session",
+      sessionExpires: "eval_session_expires",
+      chatToken: "eval_chat_token"
+    };
+
+    const SESSION_LIFETIME = 2 * 24 * 60 * 60 * 1000;
+
+    let currentSession = null;
+    let currentChatToken = null;
+    let isSending = false;
+
+    const welcome = document.getElementById("welcome");
+    const chatHistory = document.getElementById("chatHistory");
+    const composer = document.getElementById("composer");
+    const prompt = document.getElementById("prompt");
+    const sendButton = document.getElementById("sendButton");
+    const resetChatButton = document.getElementById("resetChatBtn");
+    const loading = document.getElementById("loading");
+    const errorMessage = document.getElementById("errorMessage");
 
     /*
-     * Даже если chatToken уже есть,
-     * проверяем его через сервер.
-     *
-     * Это также позволяет серверу
-     * создать чат, если его ещё нет.
+     * -------------------------
+     * Storage
+     * -------------------------
      */
 
-    const chat =
-      await getChat(
-        currentSession
+    function getStoredSession() {
+      const session = localStorage.getItem(STORAGE_KEYS.session);
+      const expires = Number(
+        localStorage.getItem(STORAGE_KEYS.sessionExpires)
       );
 
-
-    if (chat.chatToken) {
-
-      currentChatToken =
-        chat.chatToken;
-
-      saveChatToken(
-        currentChatToken
-      );
-    }
-
-
-    console.log(
-      "eval initialized"
-    );
-
-  } catch (error) {
-
-    console.error(
-      "Initialization error:",
-      error
-    );
-
-    showError(
-      "Не удалось подключиться к серверу."
-    );
-  }
-}
-
-
-/* =========================================================
-   Markdown
-========================================================= */
-
-function escapeHTML(text) {
-
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-
-function renderInline(text) {
-
-  text = escapeHTML(text);
-
-
-  /*
-   * Inline code
-   */
-
-  text = text.replace(
-    /`([^`\n]+)`/g,
-    "<code>$1</code>"
-  );
-
-
-  /*
-   * Bold
-   */
-
-  text = text.replace(
-    /\*\*(.+?)\*\*/g,
-    "<strong>$1</strong>"
-  );
-
-
-  /*
-   * Italic
-   */
-
-  text = text.replace(
-    /(?<!\*)\*([^*\n]+)\*(?!\*)/g,
-    "<em>$1</em>"
-  );
-
-
-  /*
-   * Links
-   */
-
-  text = text.replace(
-    /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
-
-    '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
-  );
-
-
-  return text;
-}
-
-
-function renderMarkdown(markdown) {
-
-  const codeBlocks = [];
-
-
-  /*
-   * Сначала извлекаем fenced code blocks.
-   */
-
-  let text =
-    markdown.replace(
-      /```([a-zA-Z0-9_+-]*)\n?([\s\S]*?)```/g,
-
-      (match, language, code) => {
-
-        const id =
-          codeBlocks.length;
-
-
-        codeBlocks.push({
-          language:
-            language || "code",
-
-          code:
-            code.replace(/\n$/, "")
-        });
-
-
-        return `@@CODE_BLOCK_${id}@@`;
+      if (!session || !expires) {
+        return null;
       }
-    );
 
+      if (Date.now() >= expires) {
+        localStorage.removeItem(STORAGE_KEYS.session);
+        localStorage.removeItem(STORAGE_KEYS.sessionExpires);
+        localStorage.removeItem(STORAGE_KEYS.chatToken);
 
-  const lines =
-    text.split("\n");
+        return null;
+      }
 
-
-  let html = "";
-
-  let inList = false;
-  let listType = null;
-
-
-  function closeList() {
-
-    if (inList) {
-
-      html +=
-        `</${listType}>`;
-
-      inList = false;
-      listType = null;
-    }
-  }
-
-
-  for (const line of lines) {
-
-    const trimmed =
-      line.trim();
-
-
-    if (!trimmed) {
-
-      closeList();
-
-      continue;
+      return session;
     }
 
+    function saveSession(session) {
+      localStorage.setItem(STORAGE_KEYS.session, session);
+
+      localStorage.setItem(
+        STORAGE_KEYS.sessionExpires,
+        String(Date.now() + SESSION_LIFETIME)
+      );
+    }
 
     /*
-     * Заголовки
+     * -------------------------
+     * Session
+     * -------------------------
      */
 
-    const heading =
-      trimmed.match(
-        /^(#{1,3})\s+(.+)$/
-      );
+    async function getSession() {
+      const existingSession = getStoredSession();
 
-
-    if (heading) {
-
-      closeList();
-
-      const level =
-        heading[1].length;
-
-
-      html +=
-        `<h${level}>${renderInline(heading[2])}</h${level}>`;
-
-      continue;
-    }
-
-
-    /*
-     * Маркированный список
-     */
-
-    const bullet =
-      trimmed.match(
-        /^[-*]\s+(.+)$/
-      );
-
-
-    if (bullet) {
-
-      if (
-        !inList ||
-        listType !== "ul"
-      ) {
-
-        closeList();
-
-        html += "<ul>";
-
-        inList = true;
-        listType = "ul";
+      if (existingSession) {
+        return existingSession;
       }
 
-
-      html +=
-        `<li>${renderInline(bullet[1])}</li>`;
-
-      continue;
-    }
-
-
-    /*
-     * Нумерованный список
-     */
-
-    const numbered =
-      trimmed.match(
-        /^\d+\.\s+(.+)$/
-      );
-
-
-    if (numbered) {
-
-      if (
-        !inList ||
-        listType !== "ol"
-      ) {
-
-        closeList();
-
-        html += "<ol>";
-
-        inList = true;
-        listType = "ol";
-      }
-
-
-      html +=
-        `<li>${renderInline(numbered[1])}</li>`;
-
-      continue;
-    }
-
-
-    /*
-     * Обычный текст
-     */
-
-    closeList();
-
-
-    if (
-      trimmed.includes(
-        "@@CODE_BLOCK_"
-      )
-    ) {
-
-      html +=
-        renderInline(trimmed);
-
-    } else {
-
-      html +=
-        `<p>${renderInline(trimmed)}</p>`;
-    }
-  }
-
-
-  closeList();
-
-
-  /*
-   * Возвращаем code blocks.
-   */
-
-  html =
-    html.replace(
-      /@@CODE_BLOCK_(\d+)@@/g,
-
-      (match, index) => {
-
-        const block =
-          codeBlocks[
-            Number(index)
-          ];
-
-
-        const encodedCode =
-          encodeURIComponent(
-            block.code
-          );
-
-
-        return `
-          <div class="code-block">
-
-            <div class="code-header">
-
-              <span>
-                ${escapeHTML(block.language)}
-              </span>
-
-              <button
-                class="copy-button"
-                type="button"
-                data-code="${encodedCode}"
-                onclick="copyCode(this)"
-              >
-                Копировать
-              </button>
-
-            </div>
-
-            <code class="code-content">${escapeHTML(block.code)}</code>
-
-          </div>
-        `;
-      }
-    );
-
-
-  return html;
-}
-
-
-/* =========================================================
-   Copy code
-========================================================= */
-
-async function copyCode(button) {
-
-  const code =
-    decodeURIComponent(
-      button.dataset.code
-    );
-
-
-  try {
-
-    await navigator.clipboard.writeText(
-      code
-    );
-
-
-    const oldText =
-      button.textContent;
-
-
-    button.textContent =
-      "Скопировано!";
-
-
-    setTimeout(() => {
-
-      button.textContent =
-        oldText;
-
-    }, 1500);
-
-
-  } catch {
-
-    const textarea =
-      document.createElement(
-        "textarea"
-      );
-
-
-    textarea.value = code;
-
-    textarea.style.position =
-      "fixed";
-
-    textarea.style.opacity =
-      "0";
-
-
-    document.body.appendChild(
-      textarea
-    );
-
-
-    textarea.select();
-
-    document.execCommand(
-      "copy"
-    );
-
-
-    textarea.remove();
-
-
-    button.textContent =
-      "Скопировано!";
-
-
-    setTimeout(() => {
-
-      button.textContent =
-        "Копировать";
-
-    }, 1500);
-  }
-}
-
-
-/* =========================================================
-   Error
-========================================================= */
-
-function showError(message) {
-
-  answer.textContent =
-    message;
-
-  answer.classList.add(
-    "visible",
-    "error"
-  );
-}
-
-
-/* =========================================================
-   Input
-========================================================= */
-
-input.addEventListener(
-  "input",
-  () => {
-
-    send.disabled =
-      !input.value.trim();
-
-
-    input.style.height =
-      "auto";
-
-
-    input.style.height =
-      Math.min(
-        input.scrollHeight,
-        200
-      ) + "px";
-  }
-);
-
-
-input.addEventListener(
-  "keydown",
-  event => {
-
-    if (
-      event.key === "Enter" &&
-      !event.shiftKey
-    ) {
-
-      event.preventDefault();
-
-
-      if (!send.disabled) {
-
-        form.requestSubmit();
-      }
-    }
-  }
-);
-
-
-/* =========================================================
-   Request once
-========================================================= */
-
-form.addEventListener(
-  "submit",
-  async event => {
-
-    event.preventDefault();
-
-
-    const userRequest =
-      input.value.trim();
-
-
-    if (!userRequest) {
-      return;
-    }
-
-
-    answer.classList.remove(
-      "visible",
-      "error"
-    );
-
-    answer.innerHTML = "";
-
-
-    welcome.style.display =
-      "none";
-
-
-    loading.classList.add(
-      "visible"
-    );
-
-
-    input.disabled =
-      true;
-
-    send.disabled =
-      true;
-
-
-    try {
-
-      /*
-       * На всякий случай убеждаемся,
-       * что сессия ещё действительна.
-       */
-
-      currentSession =
-        await getSession();
-
-
-      /*
-       * Если chatToken отсутствует,
-       * получаем/создаём чат.
-       */
-
-      if (!currentChatToken) {
-
-        const chat =
-          await getChat(
-            currentSession
-          );
-
-
-        currentChatToken =
-          chat.chatToken;
-
-
-        saveChatToken(
-          currentChatToken
-        );
-      }
-
-
-      /*
-       * requestOnce:
-       *
-       * {
-       *   session,
-       *   chatId,
-       *   aiRequest
-       * }
-       */
-
-      const response =
-        await fetch(
-          API.requestOnce,
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json"
-            },
-
-            body: JSON.stringify({
-
-              session:
-                currentSession,
-
-              chatId:
-                currentChatToken,
-
-              aiRequest:
-                userRequest
-            })
-          }
-        );
-
+      const response = await fetch(API.getSession, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
 
       if (!response.ok) {
-
         throw new Error(
-          `HTTP ${response.status}`
+          `Не удалось получить сессию: HTTP ${response.status}`
         );
       }
 
+      const data = await response.json();
 
-      const data =
-        await response.json();
-
-
-      /*
-       * Сервер может вернуть новый
-       * chatToken.
-       *
-       * Если вернул — сохраняем его.
-       */
-
-      if (data.chatToken) {
-
-        currentChatToken =
-          data.chatToken;
-
-
-        saveChatToken(
-          currentChatToken
-        );
+      if (!data.session) {
+        throw new Error("Сервер не вернул session");
       }
 
+      saveSession(data.session);
 
-      if (
-        data.success === false
-      ) {
-
-        throw new Error(
-          data.message ||
-          "API error"
-        );
-      }
-
-
-      const message =
-        data.message ?? "";
-
-
-      answer.innerHTML =
-        renderMarkdown(
-          String(message)
-        );
-
-
-      answer.classList.add(
-        "visible"
-      );
-
-
-    } catch (error) {
-
-      console.error(
-        "Request error:",
-        error
-      );
-
-
-      showError(
-        "Не удалось получить ответ. Проверьте подключение к API."
-      );
-
-
-    } finally {
-
-      loading.classList.remove(
-        "visible"
-      );
-
-
-      input.disabled =
-        false;
-
-
-      input.value =
-        "";
-
-
-      input.style.height =
-        "auto";
-
-
-      send.disabled =
-        true;
-
-
-      input.focus();
+      return data.session;
     }
 
-  }
-);
+    /*
+     * -------------------------
+     * Chat
+     * -------------------------
+     */
 
+    async function getChat(session) {
+      const response = await fetch(API.getChat, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          session
+        })
+      });
 
-/* =========================================================
-   Start
-========================================================= */
+      if (!response.ok) {
+        throw new Error(
+          `Не удалось получить чат: HTTP ${response.status}`
+        );
+      }
 
-initialize();
+      const data = await response.json();
 
-</script>
+      if (!data.chatToken) {
+        throw new Error("Сервер не вернул chatToken");
+      }
 
+      currentChatToken = data.chatToken;
+
+      localStorage.setItem(
+        STORAGE_KEYS.chatToken,
+        data.chatToken
+      );
+
+      renderChatHistory(data.chatHistory || []);
+
+      return data;
+    }
+
+    /*
+     * -------------------------
+     * requestOnce
+     * -------------------------
+     */
+
+    async function requestOnce(userRequest) {
+      if (!currentSession) {
+        throw new Error("Нет активной сессии");
+      }
+
+      if (!currentChatToken) {
+        await getChat(currentSession);
+      }
+
+      const response = await fetch(API.requestOnce, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          session: currentSession,
+          chatId: currentChatToken,
+          aiRequest: userRequest
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Ошибка запроса: HTTP ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+
+      if (data.chatToken) {
+        currentChatToken = data.chatToken;
+
+        localStorage.setItem(
+          STORAGE_KEYS.chatToken,
+          data.chatToken
+        );
+      }
+
+      if (!data.success && !data.message) {
+        throw new Error(
+          data.error || "Сервер не вернул ответ"
+        );
+      }
+
+      return data;
+    }
+
+    /*
+     * -------------------------
+     * Reset chat
+     * -------------------------
+     */
+
+    async function resetChat() {
+      if (!currentSession || !currentChatToken || isSending) {
+        return;
+      }
+
+      const confirmed = window.confirm(
+        "Сбросить историю этого чата?"
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        resetChatButton.disabled = true;
+
+        const response = await fetch(API.resetChat, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            session: currentSession,
+            chatId: currentChatToken
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `Не удалось сбросить чат: HTTP ${response.status}`
+          );
+        }
+
+        const data = await response.json();
+
+        /*
+         * По условию resetChat не меняет chatId.
+         * Если сервер всё же вернул chatToken,
+         * используем его.
+         */
+
+        if (data.chatToken) {
+          currentChatToken = data.chatToken;
+
+          localStorage.setItem(
+            STORAGE_KEYS.chatToken,
+            data.chatToken
+          );
+        }
+
+        renderChatHistory([]);
+
+        hideError();
+
+        welcome.classList.remove("hidden");
+
+        prompt.focus();
+
+      } catch (error) {
+        showError(error.message);
+      } finally {
+        resetChatButton.disabled = false;
+      }
+    }
+
+    /*
+     * -------------------------
+     * Markdown renderer
+     * -------------------------
+     */
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function escapeAttribute(value) {
+      return escapeHtml(value)
+        .replace(/`/g, "&#096;");
+    }
+
+    function renderInlineMarkdown(text) {
+      let result = escapeHtml(text);
+
+      /*
+       * Inline code
+       */
+
+      result = result.replace(
+        /`([^`]+)`/g,
+        '<code class="inline-code">$1</code>'
+      );
+
+      /*
+       * Bold
+       */
+
+      result = result.replace(
+        /\*\*(.+?)\*\*/g,
+        "<strong>$1</strong>"
+      );
+
+      /*
+       * Italic
+       */
+
+      result = result.replace(
+        /(?<!\*)\*([^*\n]+)\*(?!\*)/g,
+        "<em>$1</em>"
+      );
+
+      /*
+       * Links
+       */
+
+      result = result.replace(
+        /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+        '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+      );
+
+      /*
+       * Plain URLs
+       */
+
+      result = result.replace(
+        /(^|\s)(https?:\/\/[^\s<]+)/g,
+        '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>'
+      );
+
+      return result;
+    }
+
+    function renderCodeBlock(code, language = "") {
+      const encodedCode = encodeURIComponent(code);
+
+      return `
+        <div class="code-block">
+          <div class="code-header">
+            <button
+              class="copy-code"
+              type="button"
+              data-code="${escapeAttribute(encodedCode)}"
+            >
+              Копировать
+            </button>
+          </div>
+
+          <pre class="code-content"><code>${escapeHtml(code)}</code></pre>
+        </div>
+      `;
+    }
+
+    function renderMarkdown(markdown) {
+      if (!markdown) {
+        return "";
+      }
+
+      let source = String(markdown)
+        .replace(/\r\n/g, "\n")
+        .replace(/\r/g, "\n");
+
+      const codeBlocks = [];
+
+      /*
+       * Сначала извлекаем fenced code blocks:
+       *
+       * ```python
+       * print("Hello")
+       * ```
+       */
+
+      source = source.replace(
+        /```([a-zA-Z0-9_+-]*)\n?([\s\S]*?)```/g,
+        function (_, language, code) {
+          const index = codeBlocks.length;
+
+          codeBlocks.push(
+            renderCodeBlock(
+              code.replace(/\n$/,
+              ""),
+              language
+            )
+          );
+
+          return `@@CODE_BLOCK_${index}@@`;
+        }
+      );
+
+      const lines = source.split("\n");
+
+      let html = "";
+      let paragraph = [];
+      let listType = null;
+
+      function flushParagraph() {
+        if (!paragraph.length) {
+          return;
+        }
+
+        const content = paragraph.join("<br>");
+        html += `<p>${content}</p>`;
+
+        paragraph = [];
+      }
+
+      function closeList() {
+        if (!listType) {
+          return;
+        }
+
+        html += `</${listType}>`;
+        listType = null;
+      }
+
+      for (const rawLine of lines) {
+        const line = rawLine.trimEnd();
+
+        /*
+         * Empty line
+         */
+
+        if (!line.trim()) {
+          flushParagraph();
+          closeList();
+          continue;
+        }
+
+        /*
+         * Code block placeholder
+         */
+
+        const codeMatch = line.match(
+          /^@@CODE_BLOCK_(\d+)@@$/
+        );
+
+        if (codeMatch) {
+          flushParagraph();
+          closeList();
+
+          html += codeBlocks[
+            Number(codeMatch[1])
+          ];
+
+          continue;
+        }
+
+        /*
+         * Headings
+         */
+
+        const heading = line.match(
+          /^(#{1,3})\s+(.+)$/
+        );
+
+        if (heading) {
+          flushParagraph();
+          closeList();
+
+          const level = heading[1].length;
+
+          html += `
+            <h${level}>
+              ${renderInlineMarkdown(heading[2])}
+            </h${level}>
+          `;
+
+          continue;
+        }
+
+        /*
+         * Unordered list
+         */
+
+        const unordered = line.match(
+          /^\s*[-*]\s+(.+)$/
+        );
+
+        if (unordered) {
+          flushParagraph();
+
+          if (listType !== "ul") {
+            closeList();
+            html += "<ul>";
+            listType = "ul";
+          }
+
+          html += `
+            <li>${renderInlineMarkdown(unordered[1])}</li>
+          `;
+
+          continue;
+        }
+
+        /*
+         * Ordered list
+         */
+
+        const ordered = line.match(
+          /^\s*\d+\.\s+(.+)$/
+        );
+
+        if (ordered) {
+          flushParagraph();
+
+          if (listType !== "ol") {
+            closeList();
+            html += "<ol>";
+            listType = "ol";
+          }
+
+          html += `
+            <li>${renderInlineMarkdown(ordered[1])}</li>
+          `;
+
+          continue;
+        }
+
+        /*
+         * Normal text
+         */
+
+        if (listType) {
+          closeList();
+        }
+
+        paragraph.push(
+          renderInlineMarkdown(line)
+        );
+      }
+
+      flushParagraph();
+      closeList();
+
+      /*
+       * На случай placeholder внутри текста.
+       */
+
+      html = html.replace(
+        /@@CODE_BLOCK_(\d+)@@/g,
+        function (_, index) {
+          return codeBlocks[Number(index)] || "";
+        }
+      );
+
+      return html;
+    }
+
+    /*
+     * -------------------------
+     * Render history
+     * -------------------------
+     */
+
+    function renderChatHistory(history) {
+      chatHistory.innerHTML = "";
+
+      if (!Array.isArray(history) || history.length === 0) {
+        welcome.classList.remove("hidden");
+        return;
+      }
+
+      welcome.classList.add("hidden");
+
+      for (const message of history) {
+        const role =
+          message.role === "user"
+            ? "user"
+            : "assistant";
+
+        const messageElement =
+          document.createElement("div");
+
+        messageElement.className =
+          `chat-message ${role}`;
+
+        const bubble =
+          document.createElement("div");
+
+        bubble.className = "chat-bubble";
+
+        if (role === "assistant") {
+          bubble.classList.add("markdown");
+          bubble.innerHTML = renderMarkdown(
+            message.content || ""
+          );
+        } else {
+          bubble.textContent =
+            message.content || "";
+        }
+
+        messageElement.appendChild(bubble);
+        chatHistory.appendChild(messageElement);
+      }
+
+      requestAnimationFrame(() => {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth"
+        });
+      });
+    }
+
+    /*
+     * -------------------------
+     * Copy code
+     * -------------------------
+     */
+
+    document.addEventListener("click", async (event) => {
+      const button =
+        event.target.closest(".copy-code");
+
+      if (!button) {
+        return;
+      }
+
+      const encodedCode =
+        button.dataset.code || "";
+
+      const code = decodeURIComponent(
+        encodedCode
+      );
+
+      try {
+        await navigator.clipboard.writeText(code);
+
+        const oldText = button.textContent;
+
+        button.textContent = "Скопировано";
+
+        setTimeout(() => {
+          button.textContent = oldText;
+        }, 1200);
+
+      } catch {
+        button.textContent = "Ошибка";
+
+        setTimeout(() => {
+          button.textContent = "Копировать";
+        }, 1200);
+      }
+    });
+
+    /*
+     * -------------------------
+     * UI helpers
+     * -------------------------
+     */
+
+    function showError(message) {
+      errorMessage.textContent =
+        message || "Произошла ошибка";
+
+      errorMessage.classList.add("visible");
+    }
+
+    function hideError() {
+      errorMessage.classList.remove("visible");
+      errorMessage.textContent = "";
+    }
+
+    function setLoading(value) {
+      isSending = value;
+
+      loading.classList.toggle(
+        "visible",
+        value
+      );
+
+      sendButton.disabled = value;
+      resetChatButton.disabled = value;
+    }
+
+    /*
+     * -------------------------
+     * Send message
+     * -------------------------
+     */
+
+    async function sendMessage() {
+      const text = prompt.value.trim();
+
+      if (!text || isSending) {
+        return;
+      }
+
+      hideError();
+
+      /*
+       * Убираем welcome
+       */
+
+      welcome.classList.add("hidden");
+
+      /*
+       * Сразу показываем сообщение пользователя.
+       * После ответа история будет синхронизирована
+       * с сервером через getChat().
+       */
+
+      const userMessage =
+        document.createElement("div");
+
+      userMessage.className =
+        "chat-message user";
+
+      const userBubble =
+        document.createElement("div");
+
+      userBubble.className =
+        "chat-bubble";
+
+      userBubble.textContent = text;
+
+      userMessage.appendChild(userBubble);
+      chatHistory.appendChild(userMessage);
+
+      prompt.value = "";
+      resizeTextarea();
+
+      requestAnimationFrame(() => {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth"
+        });
+      });
+
+      setLoading(true);
+
+      try {
+        /*
+         * На случай истёкшей сессии:
+         * убеждаемся, что session + chat относятся
+         * друг к другу.
+         */
+
+        const session = await getSession();
+
+        if (
+          !currentSession ||
+          currentSession !== session
+        ) {
+          currentSession = session;
+
+          /*
+           * Получаем chat заново для новой сессии.
+           * Старый chatToken к новой сессии не относится.
+           */
+
+          currentChatToken = null;
+
+          await getChat(currentSession);
+        }
+
+        if (!currentChatToken) {
+          await getChat(currentSession);
+        }
+
+        await requestOnce(text);
+
+        /*
+         * Получаем актуальную серверную историю.
+         */
+
+        await getChat(currentSession);
+
+      } catch (error) {
+        console.error(error);
+
+        showError(
+          error.message ||
+          "Не удалось получить ответ"
+        );
+
+      } finally {
+        setLoading(false);
+        prompt.focus();
+      }
+    }
+
+    /*
+     * -------------------------
+     * Textarea auto resize
+     * -------------------------
+     */
+
+    function resizeTextarea() {
+      prompt.style.height = "auto";
+
+      const height = Math.min(
+        prompt.scrollHeight,
+        180
+      );
+
+      prompt.style.height =
+        `${Math.max(height, 38)}px`;
+    }
+
+    prompt.addEventListener(
+      "input",
+      resizeTextarea
+    );
+
+    /*
+     * Enter = send
+     * Shift + Enter = new line
+     */
+
+    prompt.addEventListener(
+      "keydown",
+      (event) => {
+        if (
+          event.key === "Enter" &&
+          !event.shiftKey
+        ) {
+          event.preventDefault();
+
+          if (!isSending) {
+            composer.requestSubmit();
+          }
+        }
+      }
+    );
+
+    composer.addEventListener(
+      "submit",
+      (event) => {
+        event.preventDefault();
+        sendMessage();
+      }
+    );
+
+    resetChatButton.addEventListener(
+      "click",
+      resetChat
+    );
+
+    /*
+     * -------------------------
+     * Initialization
+     * -------------------------
+     */
+
+    async function initialize() {
+      try {
+        currentSession = await getSession();
+
+        /*
+         * Всегда получаем chat через API.
+         * Сервер вернёт существующий chatToken
+         * и всю историю.
+         */
+
+        await getChat(currentSession);
+
+      } catch (error) {
+        console.error(error);
+
+        showError(
+          error.message ||
+          "Не удалось подключиться к серверу"
+        );
+      }
+    }
+
+    initialize();
+    prompt.focus();
+  </script>
 </body>
 </html>
