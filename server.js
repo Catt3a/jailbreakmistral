@@ -130,6 +130,7 @@ app.post('/v1/requestOnce', async (req,res,next) => {
       }
       if (for_session[3] === req.ip) {
         createSessionBan = true
+        sessionPointer = for_session
       }
     }
     
@@ -141,6 +142,7 @@ app.post('/v1/requestOnce', async (req,res,next) => {
         }
         if (for_chat[4] === req.ip) {
           createChatBan = true
+          chatPointer = for_chat
         }
       }
     }
