@@ -85,9 +85,9 @@ app.post('/v1/requestOnce', async (req,res,next) => {
   let tokenChat = ''
   let tokenSession = ''
   if (req && req.body && req.body.aiRequest && typeof(req.body.aiRequest) == 'string' && req.body.aiRequest.length > 0) {text = req.body.aiRequest} else {res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})}
-  if (req && req.body && req.body.session && typeof(req.body.session) == 'string' && req.body.session.length > 0) {text = req.body.session} else {res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})}
-  if (req && req.body && req.body.chatId && typeof(req.body.chatId) == 'string' && req.body.chatId.length > 0) {text = req.body.chatId} else {res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})}
-  if (text != '' && tokenChat != '' && tokenSession != '') {
+  if (req && req.body && req.body.session && typeof(req.body.session) == 'string' && req.body.session.length > 0) {tokenChat = req.body.session} else {res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})}
+  if (req && req.body && req.body.chatId && typeof(req.body.chatId) == 'string' && req.body.chatId.length > 0) {tokenSession = req.body.chatId}
+  if (text != '' && tokenSession != '') {
     let createSessionBan = false
     let createChatBan = false
 
