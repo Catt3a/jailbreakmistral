@@ -83,6 +83,7 @@ app.post('/v1/getChat', async (req,res,next) => {
       tokenChat = crypto.randomUUID()
       chats.push([tokenChat, session, Date.now() + (2 * 24 * 60 * 60 * 1000), [], req.ip])
       res.status(200).json({success: true, message: 'ok', chatHistory: [], chatToken: tokenChat})
+      break
     }
   } catch(error) {
     next(error)
@@ -146,12 +147,16 @@ app.post('/v1/requestOnce', async (req,res,next) => {
 
     if (!sessionPointer && createSessionBan === false) {
        tokenSession = crypto.randomUUID()
-       sessions.push([tokenSession, 0, Date.now() + (2 * 24 * 60 * 60 * 1000), req.ip])
+       const newData = [tokenSession, 0, Date.now() + (2 * 24 * 60 * 60 * 1000), req.ip]
+       sessions.push(newData)
+       sessionPointer = newData
     }
     
-    if (!chatPointer === false && createChatBan === false) {
+    if (!chatPointer && createChatBan === false) {
       tokenChat = crypto.randomUUID()
-      chats.push([tokenChat, tokenSession, Date.now() + (2 * 24 * 60 * 60 * 1000), [], req.ip])
+      const newData = [tokenChat, tokenSession, Date.now() + (2 * 24 * 60 * 60 * 1000), [], req.ip]
+      chats.push(newData)
+      chatPointer = newData
     }
     console.log('d ' + chatPointer + ' ' + sessionPointer)
     if (chatPointer && sessionPointer) {
@@ -195,7 +200,7 @@ app.post('/v1/requestOnce', async (req,res,next) => {
         res.status(200).json({success: false, message: error})
       }
     } else {
-      res.status(200).json({success: false, message: error})
+      res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})
     }
 
   } else {res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})}
