@@ -88,7 +88,8 @@ app.post('/v1/resetChat', async (req,res,next) => {
     for (const for_chat of chats) {
       if (for_chat[1] === session) {
         const chatIndex = sessions.indexOf(for_chat)
-        chats[3] = []
+        chats[chatIndex][3] = []
+        chats[chatIndex][2] = Date.now() + (2 * 24 * 60 * 60 * 1000)
         break
       }
     }
