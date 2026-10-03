@@ -70,11 +70,19 @@ app.post('/v1/getSession', async (req,res,next) => {
 app.post('/v1/getChat', async (req,res,next) => {
   try {
     let session = ''
+    let found = false
     if (req && req.body && req.body.session && typeof(req.body.session) == 'string' && req.body.session.length > 0) {session = req.body.session} else {res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})}
     for (const for_chat of chats) {
       if (for_chat[1] === session) {
+        found = true
         res.status(200).json({success: true, message: 'ok', chatHistory: for_chat[3]})
+        break
       }
+    }
+    if (found === false) {
+      tokenChat = crypto.randomUUID()
+      chats.push([tokenChat, tokenSession, Date.now() + (2 * 24 * 60 * 60 * 1000), [], req.ip])
+      res.status(200).json({success: true, message: 'ok', chatHistory: []})
     }
   } catch(error) {
     next(error)
