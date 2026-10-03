@@ -93,11 +93,12 @@ app.post('/v1/resetChat', async (req,res,next) => {
   try {
     let session = ''
     if (req && req.body && req.body.session && typeof(req.body.session) == 'string' && req.body.session.length > 0) {session = req.body.session} else {res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})}
+    let index = -1
     for (const for_chat of chats) {
+      index++
       if (for_chat[1] === session) {
-        const chatIndex = sessions.indexOf(for_chat)
-        chats[chatIndex][3] = []
-        chats[chatIndex][2] = Date.now() + (2 * 24 * 60 * 60 * 1000)
+        chats[index][3] = []
+        chats[index][2] = Date.now() + (2 * 24 * 60 * 60 * 1000)
         break
       }
     }
