@@ -8,7 +8,7 @@ const apiKey = process.env.API_KEY || '67'
 const mainPage = fs.readFileSync('./main.html','utf8')
 
 //отправка страниц
-app.get('/', async, (req,res,next) => {
+app.get('/', async (req,res,next) => {
   try {
     res.send(mainPage)
   } catch(error) {
