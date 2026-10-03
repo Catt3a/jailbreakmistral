@@ -57,6 +57,7 @@ app.post('/v1/getSession', async (req,res,next) => {
     if (sessionExists === false) {
       const tokenSession = crypto.randomUUID()
       sessions.push([tokenSession, 0, Date.now() + (2 * 24 * 60 * 60 * 1000), req.ip])
+      res.status(200).json({success: false, message: 'ok', session: tokenSession})
     } else {
       res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})
     }
@@ -159,7 +160,7 @@ app.post('/v1/requestOnce', async (req,res,next) => {
              chats[chatIndex][3].push({ role: 'user', content: text})
              chats[chatIndex][3].push({ role: 'assistant', content: content})
            }
-           res.status(200).json({success: true, message: content})
+           res.status(200).json({success: true, message: content, chatToken: tokenChat})
         } else {
           res.status(200).json({success: false, message: data.toString()})
         }
