@@ -75,14 +75,14 @@ app.post('/v1/getChat', async (req,res,next) => {
     for (const for_chat of chats) {
       if (for_chat[1] === session) {
         found = true
-        res.status(200).json({success: true, message: 'ok', chatHistory: for_chat[3]})
+        res.status(200).json({success: true, message: 'ok', chatHistory: for_chat[3], chatToken: for_chat[0]})
         break
       }
     }
     if (found === false) {
       tokenChat = crypto.randomUUID()
       chats.push([tokenChat, tokenSession, Date.now() + (2 * 24 * 60 * 60 * 1000), [], req.ip])
-      res.status(200).json({success: true, message: 'ok', chatHistory: []})
+      res.status(200).json({success: true, message: 'ok', chatHistory: [], chatToken: tokenChat})
     }
   } catch(error) {
     next(error)
