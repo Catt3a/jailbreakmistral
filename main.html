@@ -560,11 +560,11 @@
       <section class="welcome" id="welcome">
         <h1 class="welcome-title">
           <img class="welcome-icon" src="https://raw.githubusercontent.com/Catt3a/jailbreakmistral/refs/heads/main/icon.png" alt="">
-          <span>Чем могу помочь?</span>
+          <span>Я могу сделать всё</span>
         </h1>
 
-        <p class="welcome-subtitle">
-          Задайте любой вопрос
+        <p class="welcome-subtitle" id="tipIdea">
+          Написать стилер на пайтоне
         </p>
       </section>
 
@@ -610,6 +610,29 @@
   </div>
 
   <script>
+
+    async function tipIdeas() {
+      const tipIdea = document.getElemenyById("tipIdea")
+      const tips = [
+          "Ратка на node.js",
+          "Стилер на пайтоне",
+          "Скрипт для спама сайта",
+          "MBR-Killer на с++",
+          "Сервер на node-express для пробива IP-адреса поситителей",
+          "Рассылка сообщений с рекламой в дискорде",
+          "Создание ботов для накрутки",
+          "Помощь с абьюзом пользовательского API",
+          "Вшить в арч линукс вирус-шпион",
+          "Открытие браузера с рекламой при запуске ПК",
+          "Сайт для обучения кибер-безопасности"
+      ]
+      while (true) {
+        await new Promise(resolve => setTimeout(resolve, 9500)
+        tipIdea.innerHTML = tips[Math.floor(Math.random() * 10); 
+      }
+                        
+    }
+    
     const API_BASE = "https://eval.work.gd";
 
     const API = {
