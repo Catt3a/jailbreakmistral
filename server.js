@@ -5,7 +5,7 @@ const fs = require('fs')
 const apiKey = process.env.API_KEY || '67'
 
 //страницы
-const mainPage = fs.read('./main.html')
+const mainPage = fs.readFileSync('./main.html','utf8')
 
 //отправка страниц
 app.get('/', async, (req,res,next) => {
