@@ -4,6 +4,8 @@ const PORT = process.env.PORT || 3000
 const fs = require('fs')
 const apiKey = process.env.API_KEY || '67'
 
+app.use(express.json())
+
 //страницы
 const mainPage = fs.readFileSync('./main.html','utf8')
 
@@ -19,7 +21,7 @@ app.get('/', async (req,res,next) => {
 app.post('/v1/requestOnce', async (req,res,next) => {
   try {
   let text = ''
-  if (req && req.body && req.body.aiRequest && typeof(req.body.aiRequest) == 'string' && req.body.aiRequest.length > 0) {text = req.body.aiRequest} else {res.status.json(200, {success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})}
+  if (req && req.body && req.body.aiRequest && typeof(req.body.aiRequest) == 'string' && req.body.aiRequest.length > 0) {text = req.body.aiRequest} else {res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})}
   if (text != '') {
     const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
       method: 'POST',
@@ -46,13 +48,13 @@ app.post('/v1/requestOnce', async (req,res,next) => {
        const content = data.choices[0].message.content;
        console.log(content)
 
-       res.status.json(200, {success: true, message: content})
+       res.status(200).json({success: true, message: content})
     } else {
-      res.status.json(200, {success: false, message: data.toString()})
+      res.status(200).json({success: false, message: data.toString()})
     }
-  } else {res.status.json(200, {success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})}
+  } else {res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})}
   } catch(error) {
-    next(errror)
+    next(error)
   }
 })
 
