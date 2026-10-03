@@ -65,6 +65,20 @@ app.post('/v1/getSession', async (req,res,next) => {
   }
 })
 
+app.post('/v1/getChat', async (req,res,next) => {
+  try {
+    let session = ''
+    if (req && req.body && req.body.session && typeof(req.body.session) == 'string' && req.body.session.length > 0) {session = req.body.session} else {res.status(200).json({success: false, message: 'я твою матушку в кино водил и сладкой ватой угощал'})}
+    for (const for_chat of chats) {
+      if (for_chat[1] === session) {
+        res.status(200).json({success: true, message: 'ok', chatHistory: for_chat[3]})
+      }
+    }
+  } catch(error) {
+    next(error)
+  }
+})
+
 app.post('/v1/requestOnce', async (req,res,next) => {
   try {
   let text = ''
