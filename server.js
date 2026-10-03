@@ -212,4 +212,17 @@ app.post('/v1/requestOnce', async (req,res,next) => {
   }
 })
 
+app.get('/v1/health', async (req, res) => {
+    return res.json({ success: true, message: "ok" })
+});
+
+async function pinger() {
+    while (true) {
+        await new Promise(resolve => setTimeout(resolve, 15000))
+        await fetch("https://contentfarmpinger.onrender.com/v1/health")
+    }
+}
+
+pinger();
+
 app.listen(PORT)
