@@ -49,7 +49,7 @@ app.get('/', async (req,res,next) => {
 
 app.post('/v1/getSession', async (req,res,next) => {
   try {
-    const sessionExists = false
+    let sessionExists = false
     for (const for_session of sessions) {
       if (for_session[3] === req.ip) {
         sessionExists = true
